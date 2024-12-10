@@ -12,27 +12,12 @@ const savePrediction = async (id, data) => {
 };
 
 const getPredictionHistories = async () => {
-  try {
-    const snapshot = await db.collection("predictions").get();
-    const histories = [];
-
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      histories.push({
-        id: doc.id,
-        history: {
-          result: data.result,
-          createdAt: data.createdAt,
-          suggestion: data.suggestion,
-          id: doc.id,
-        },
-      });
-    });
-
-    return histories;
-  } catch (error) {
-    throw new Error("Error retrieving prediction histories: " + error.message);
-  }
+  const snapshot = await db.collection("predictions").get();
+  return snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
 };
 
 module.exports = { savePrediction, getPredictionHistories };
+    
