@@ -1,11 +1,10 @@
-const { predictHandler } = require("../controllers/predictController");
-const { uploadMiddleware } = require("../middlewares/uploadMiddleware");
+const express = require("express");
+const { predictController } = require("../controllers/predictController");
+const { upload } = require("../middlewares/uploadMiddleware");
 
-const predictRoute = {
-  method: 'POST',
-  path: '/predict',
-  options: uploadMiddleware,
-  handler: predictHandler,
-};
+const router = express.Router();
 
-module.exports = predictRoute;
+// Gunakan upload.single('image') untuk key "image"
+router.post("/", upload.single("image"), predictController);
+
+module.exports = router;
