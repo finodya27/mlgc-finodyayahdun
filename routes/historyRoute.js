@@ -1,9 +1,7 @@
-const { getHistoryHandler } = require("../controllers/historyHandler");
+const express = require("express");
+const { getHistoryController } = require("../controllers/historyController");
 
-const historyRoute = {
-  method: 'GET',
-  path: '/predict/histories',
-  handler: getHistoryHandler,
-};
+const router = express.Router();
+router.get("/", getHistoryController);
 
-module.exports = historyRoute;
+module.exports = router;
