@@ -1,20 +1,19 @@
 const { getPredictionHistories } = require("../services/databaseService");
 
-const getHistoryHandler = async (request, h) => {
+const getHistoryController = async (req, res) => {
   try {
     const histories = await getPredictionHistories();
-
-    return h.response({
+    return res.status(201).json({
       status: "success",
       data: histories,
-    }).code(200);
+    });
   } catch (error) {
     console.error("Error fetching prediction histories:", error);
-    return h.response({
+    return res.status(500).json({
       status: "fail",
-      message: "Terjadi kesalahan dalam mengambil riwayat prediksi",
-    }).code(500);
+      message: "Error fetching prediction histories",
+    });
   }
 };
 
-module.exports = { getHistoryHandler };
+module.exports = { getHistoryController };
