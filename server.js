@@ -1,28 +1,24 @@
-const Hapi = require('@hapi/hapi');
+const express = require("express");
+const cors = require("cors");
 const { errorMiddleware } = require("./middlewares/errorMiddleware");
-const { corsMiddleware } = require("./middlewares/corsMiddleware");
 const historyRoute = require("./routes/historyRoute");
 const predictRoute = require("./routes/predictRoute");
 
-const init = async () => {
-  const server = Hapi.server({
-    port: process.env.PORT || 8080,
-    host: '0.0.0.0',
-  });
+const app = express();
+const port = process.env.PORT || 8080;
 
-  // Menambahkan route
-  server.route(predictRoute);
-  server.route(historyRoute);
+// Middleware
+app.use(express.json()); // Untuk parse JSON
+app.use(cors()); // Enable CORS
 
-  // Middleware untuk menangani CORS
-  server.ext(corsMiddleware.method, corsMiddleware.handler);
+// Routes
+app.use("/predict", predictRoute);
+app.use("/predict/histories", historyRoute);
 
-  // Middleware untuk error handling
-  server.ext('onPreResponse', errorMiddleware);
+// Global error handler
+app.use(errorMiddleware);
 
-  // Menjalankan server
-  await server.start();
-  console.log(`Server running on ${server.info.uri}`);
-};
-
-init();
+// Mulai server
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
