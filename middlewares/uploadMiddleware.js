@@ -1,17 +1,15 @@
-const Joi = require("joi");
+const multer = require("multer");
 
-const uploadMiddleware = {
-  payload: {
-    maxBytes: 1000000,
-    output: 'stream',
-    parse: true,
-    allow: 'image/*',
+const storage = multer.memoryStorage();
+const upload = multer({
+  storage,
+  limits: { fileSize: 1_000_000 }, // Batas ukuran 1MB
+  fileFilter: (req, file, cb) => {
+    if (!file.mimetype.startsWith("image/")) {
+      return cb(new Error("Only image files are allowed"));
+    }
+    cb(null, true);
   },
-  validate: {
-    payload: Joi.object({
-      file: Joi.object().required()
-    })
-  }
-};
+});
 
-module.exports = { uploadMiddleware };
+module.exports = { upload };
