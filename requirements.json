@@ -1,0 +1,6 @@
+{  
+ "backend-service-url": "https://mlgc-finodyayahdun-84528468625.asia-southeast2.run.app",
+ "frontend-service-url": "https://submissionmlgc-finodyayahdun.et.r.appspot.com",
+ "project-id": "submissionmlgc-finodya-yahdun",
+ "bucket-name": "model-storage-ml"
+}
