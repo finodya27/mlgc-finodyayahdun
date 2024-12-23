@@ -3,7 +3,7 @@ const path = require("path");
 
 const storageKeyPath = path.resolve(__dirname, "../utils/storageKey.json");
 const storage = new Storage({ keyFilename: storageKeyPath });
-const bucket = storage.bucket("submissionmlgc-finodyayahdun");
+const bucket = storage.bucket("model-storage-ml");
 
 const uploadFile = async (buffer, mimetype, imageId) => {
   const filePath = `uploaded_images/${imageId}`;
