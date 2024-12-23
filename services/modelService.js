@@ -11,14 +11,14 @@ let model;
 const predictImage = async (buffer) => {
   const imageTensor = tf.node
     .decodeJpeg(buffer)
-    .resizeNearestNeighbor([224, 224])  // Sesuaikan ukuran input sesuai dengan model Anda
+    .resizeNearestNeighbor([224, 224]) 
     .expandDims()
     .toFloat();
 
   const prediction = model.predict(imageTensor).dataSync();
   return {
     result: prediction[0] > 0.5 ? "Cancer" : "Non-cancer",
-    suggestion: prediction[0] > 0.5 ? "Consult a doctor!" : "No cancer detected.",
+    suggestion: prediction[0] > 0.5 ? "Segera periksa ke dokter!" : "Penyakit kanker tidak terdeteksi.",
   };
 };
 
