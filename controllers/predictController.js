@@ -13,7 +13,6 @@ const predictController = async (req, res) => {
       });
     }
 
-    // Validasi ukuran file
     if (file.size > 1_000_000) {
       return res.status(413).json({
         status: "fail",
@@ -25,7 +24,6 @@ const predictController = async (req, res) => {
     const imageId = uuidv4();
     const imageUrl = await uploadFile(data, mimetype, imageId);
 
-    // Prediksi gambar
     let predictionResult;
     try {
       predictionResult = await predictImage(data);
@@ -45,10 +43,8 @@ const predictController = async (req, res) => {
       createdAt: new Date().toISOString(),
     };
 
-    // Simpan hasil prediksi ke database
     await savePrediction(imageId, { ...predictionData, imageUrl });
 
-    // Respon sukses
     return res.status(201).json({
       status: "success",
       message: "Model is predicted successfully",
