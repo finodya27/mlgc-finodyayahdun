@@ -1,13 +1,13 @@
+const multer = require("multer");
+
 const errorMiddleware = (err, req, res, next) => {
-  // Handle file size limit errors
-  if (err instanceof multer.MulterError && err.code === "LIMIT_FILE_SIZE") {
+  if (err.code === "LIMIT_FILE_SIZE") {
     return res.status(413).json({
       status: "fail",
-      message: "File size exceeds the maximum limit of 1MB",
+      message: "Payload content length greater than maximum allowed: 1000000",
     });
   }
 
-  // Handle file type errors
   if (err.message === "Only image files are allowed") {
     return res.status(400).json({
       status: "fail",
@@ -15,7 +15,6 @@ const errorMiddleware = (err, req, res, next) => {
     });
   }
 
-  // Handle other multer errors (e.g., file upload error)
   if (err instanceof multer.MulterError) {
     return res.status(400).json({
       status: "fail",
@@ -23,7 +22,6 @@ const errorMiddleware = (err, req, res, next) => {
     });
   }
 
-  // Handle other errors (e.g., general API errors, unknown errors)
   console.error("Unexpected Error:", err);
   return res.status(500).json({
     status: "fail",
@@ -31,4 +29,4 @@ const errorMiddleware = (err, req, res, next) => {
   });
 };
 
-module.exports = { errorMiddleware };
+module.exports = errorMiddleware;
