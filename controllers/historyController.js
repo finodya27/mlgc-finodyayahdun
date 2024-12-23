@@ -3,7 +3,8 @@ const { getPredictionHistories } = require("../services/databaseService");
 const getHistoryController = async (req, res) => {
   try {
     const histories = await getPredictionHistories();
-    return res.status(201).json({
+
+    return res.status(200).json({
       status: "success",
       data: histories,
     });
@@ -11,7 +12,7 @@ const getHistoryController = async (req, res) => {
     console.error("Error fetching prediction histories:", error);
     return res.status(500).json({
       status: "fail",
-      message: "Error fetching prediction histories",
+      message: "Terjadi kesalahan dalam mengambil riwayat prediksi",
     });
   }
 };
